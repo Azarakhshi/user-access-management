@@ -14,10 +14,9 @@ import java.util.Set;
 @Setter
 public class Users extends AbstractBaseEntity<Long> {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_uam_group")
-    @SequenceGenerator(name = "seq_uam_group", sequenceName = "seq_uam_group", initialValue = 0, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_group")
+    @SequenceGenerator(name = "seq_group", sequenceName = "seq_uam_group", initialValue = 0, allocationSize = 10)
     @Column(name = "group_id", nullable = false)
     private Long id;
 

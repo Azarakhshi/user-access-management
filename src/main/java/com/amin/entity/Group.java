@@ -14,8 +14,8 @@ import java.util.Set;
 public class Group extends AbstractBaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_uam_group")
-    @SequenceGenerator(name = "seq_uam_group", sequenceName = "seq_uam_group", initialValue = 0, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_group")
+    @SequenceGenerator(name = "seq_group", sequenceName = "seq_uam_group", initialValue = 0, allocationSize = 10)
     @Column(name = "group_id", nullable = false)
     private Long id;
 
@@ -23,7 +23,9 @@ public class Group extends AbstractBaseEntity<Long> {
     private String GroupName;
 
     @ManyToMany
-    @JoinTable(name = "group_user")
+    @JoinTable(name = "group_user",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Users> users;
 
     @ManyToMany(mappedBy = "groups")
