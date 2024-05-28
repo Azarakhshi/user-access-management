@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "uam_group")
+@Table(name = "uam_user")
 @Getter
 @Setter
-public class User extends AbstractBaseEntity<Long> {
+public class Users extends AbstractBaseEntity<Long> {
 
 
     @Id
@@ -40,5 +41,8 @@ public class User extends AbstractBaseEntity<Long> {
 
     @Column(name = "national_code")
     private String nationalCode;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Group> groups;
 
 }

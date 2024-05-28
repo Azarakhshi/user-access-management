@@ -5,9 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "aum_authority")
+@Table(name = "uam_authority")
 @Getter
 @Setter
 public class Authority extends AbstractBaseEntity<Long> {
@@ -23,5 +24,9 @@ public class Authority extends AbstractBaseEntity<Long> {
 
     @Column(name = "authority_code")
     private String authorityCode;
+
+    @ManyToMany
+    @JoinTable(name = "authority_group")
+    private Set<Group> groups;
 
 }
