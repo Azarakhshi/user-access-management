@@ -2,14 +2,20 @@ package com.amin.config.aop.loggigng;
 
 import java.util.Arrays;
 
-import lombok.extern.log4j.Log4j2;
+import com.amin.config.Constants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+
+
 
 /**
  * Aspect for logging execution of service and repository Spring components.
@@ -18,8 +24,18 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-@Log4j2
 public class LoggingAspect {
+
+    private final Environment env;
+
+    public LoggingAspect(Environment env) {
+        this.env = env;
+    }
+
+    private Logger logger(JoinPoint joinPoint) {
+        return LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringTypeName());
+    }
+
 
     /**
      * Pointcut that matches all repositories, services and Web REST endpoints.
@@ -49,9 +65,26 @@ public class LoggingAspect {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause() != null ? e.getCause() : "NULL");
+
+        if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_DEVELOPMENT))) {
+            logger(joinPoint).error(
+                    "Exception in {}() with cause = \'{}\' and exception = \'{}\'",
+                    joinPoint.getSignature().getName(),
+                    e.getCause() != null ? e.getCause() : "NULL",
+                    e.getMessage(),
+                    e
+            );
+        } else {
+            logger(joinPoint).error(
+                    "Exception in {}() with cause = {}",
+                    joinPoint.getSignature().getName(),
+                    e.getCause() != null ? e.getCause() : "NULL"
+            );
+        }
+
+
     }
+
 
     /**
      * Advice that logs when a method is entered and exited.
@@ -60,8 +93,9 @@ public class LoggingAspect {
      * @return result
      * @throws Throwable throws IllegalArgumentException
      */
-    @Around("applicationPackagePointcut() && springBeanPointcut()")
+    @Around("springBeanPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        Logger log = logger(joinPoint);
         if (log.isDebugEnabled()) {
             log.debug("Enter: {}.{}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
                     joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
