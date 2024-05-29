@@ -1,4 +1,4 @@
-package com.amin.domain.users.captcha;
+package com.amin.domain.captcha;
 
 import lombok.*;
 

@@ -1,6 +1,8 @@
 package com.amin.service;
 
-import com.amin.domain.users.captcha.CaptchaResponse;
+import com.amin.domain.captcha.CaptchaResponse;
+import com.amin.domain.users.signin.SignInRequest;
+import com.amin.domain.users.signin.SignInResponse;
 import com.amin.entity.Users;
 import com.amin.repository.UsersRepository;
 import com.wf.captcha.SpecCaptcha;
@@ -25,8 +27,8 @@ public class UsersService {
 
     private final RedisTemplate redisTemplate;
 
-    public Users signIn(Users users) {
-        return userRepository.findByUsers(users);
+    public SignInResponse signIn(SignInRequest request) {
+        return null;
     }
 
     public CaptchaResponse captcha() {
@@ -56,6 +58,7 @@ public class UsersService {
         log.info(CaptchaResponse.builder().image(specCaptcha.toBase64()).hash(keys).build().getImage());
 
         return response;
+
     }
 
 }

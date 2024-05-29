@@ -1,8 +1,9 @@
 package com.amin.controller;
 
-import com.amin.domain.users.captcha.CaptchaResponse;
+import com.amin.domain.captcha.CaptchaResponse;
 import com.amin.domain.users.signin.SignInRequest;
 import com.amin.domain.users.signin.SignInResponse;
+import com.amin.mapper.UsersMapper;
 import com.amin.service.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,12 @@ public class UsersResource {
 
     private final UsersService service;
 
+    private final UsersMapper mapper;
+
     @PostMapping("/signing")
     @Operation(summary = "sign in")
     public ResponseEntity<SignInResponse> signIn(SignInRequest request) {
-        return null;
+        return new ResponseEntity<>(service.signIn(request), HttpStatus.OK);
     }
 
     @Operation(summary = "get captcha")
