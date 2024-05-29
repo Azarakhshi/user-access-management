@@ -6,5 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Long>, JpaSpecificationExecutor<Users> {
+public interface UsersRepository extends JpaRepository<Users, Long>, JpaSpecificationExecutor<Users> {
+
+    Users findByUsers(Users users);
+
 }
