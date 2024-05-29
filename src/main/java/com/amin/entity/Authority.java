@@ -14,8 +14,8 @@ import java.util.Set;
 public class Authority extends AbstractBaseEntity<Long> {
 
     @Id
-    @SequenceGenerator(name = "seq_authority", sequenceName = "seq_uam_authority", initialValue = 0, allocationSize = 10)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_authority")
+    @SequenceGenerator(name = "seq_uam_authority", sequenceName = "seq_uam_authority", initialValue = 0, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_uam_authority")
     @Column(name = "authority_id", nullable = false)
     private Long id;
 
