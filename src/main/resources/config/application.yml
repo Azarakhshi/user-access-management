@@ -3,6 +3,9 @@ server:
     8080
 
 spring:
+  redis:
+    host: redis://localhost
+    port: 6379
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: username
